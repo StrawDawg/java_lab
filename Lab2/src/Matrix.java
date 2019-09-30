@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class Matrix {
@@ -6,7 +8,7 @@ public class Matrix {
    public int n;
    public int m;
 
-    Matrix(int n, int m) {
+    public Matrix(int n, int m) {
         Random random = new Random();
 
         this.n = n;
@@ -22,7 +24,7 @@ public class Matrix {
     public void printMatrix() {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                System.out.print(" " + mat[i][j] + " ");
+                System.out.print("\t" + mat[i][j] + "\t");
             }
             System.out.println();
         }
@@ -30,19 +32,28 @@ public class Matrix {
 
     public void myTask() {
         int maxnum = -1;
+        ArrayList<Integer> numbers = new ArrayList<>();
+
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                for (int l = 0; l < n; l++) {
-                    for (int k = 0; k < m; k++) {
-                        if (mat[i][j] == mat[l][k] && i != l && j != k && mat[i][j] >= maxnum) {
-                            maxnum = mat[i][j];
-                            l = n;
-                            k = m;
-                        }
-                    }
-                }
+                numbers.add(mat[i][j]);
             }
         }
+
+        for(int i = 0; i < numbers.size(); i++){
+
+            if(Collections.frequency(numbers, numbers.get(i)) == 1) {
+                numbers.remove(numbers.get(i));
+                i--;
+            }
+        }
+
+        Collections.sort(numbers);
+        
+        if(!numbers.isEmpty()) {
+            maxnum = numbers.get(numbers.size() - 1);
+        }
+
         if (maxnum >= 0) {
             System.out.println("The max repetitive number in the matrix is: " + maxnum);
         } else {
